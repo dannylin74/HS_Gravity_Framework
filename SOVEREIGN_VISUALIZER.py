@@ -35,11 +35,10 @@ def start_visualization():
             # 繪製速度向量
             cv2.arrowedLine(viz_frame, pos, (int(pos[0]+v[0]*10), int(pos[1]+v[1]*10)), (255, 0, 0), 2)
             
-        # 4. 顯示視窗
-        cv2.imshow("HSGF Sovereign Vision", viz_frame)
-        
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        # 4. 儲存畫面進行驗證 (代替彈出視窗)
+        cv2.imwrite("debug_vision.jpg", viz_frame)
+        print("📸 [Visualizer] 已捕獲主權視界並存至 debug_vision.jpg。請查看該檔案以驗證邏輯。")
+        break # 執行一次即可
 
     cv2.destroyAllWindows()
 
