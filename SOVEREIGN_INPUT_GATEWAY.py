@@ -1,7 +1,17 @@
 """
-[戰術代號: SOVEREIGN_INPUT_GATEWAY.py]
-[主權版本: V3.6 - Stealth Input Protocol]
-[功能: 擬人化、反偵測的輸入對沖層。模擬人類行為模式，規避啟發式偵測。]
+HSGF - SOVEREIGN_INPUT_GATEWAY.py
+Version: V3.7 - Physics-based Stealth Input Protocol
+
+Core Physics:
+  - Gravity-well mouse movement: trajectory follows a physics spline toward target
+  - Micro-jitter decay: tremor amplitude decays as cursor approaches target
+  - Bio-timing: randomized delays simulate human muscle response patterns
+
+Usage:
+    from SOVEREIGN_INPUT_GATEWAY import stealth_input
+    stealth_input.move_mouse_stealth(960, 540)
+    stealth_input.click_stealth(960, 540)
+    stealth_input.type_stealth("hello")
 """
 
 import time
@@ -10,83 +20,106 @@ import numpy as np
 import pyautogui
 from scipy import interpolate
 
+
 class StealthInputGateway:
     def __init__(self):
-        pyautogui.PAUSE = 0 # 移除預設延遲，由我們精確控制
-        print("👤 [StealthInput] 潛行輸入協議已點火。動作擬人化已激活。")
+        pyautogui.PAUSE = 0  # Remove default delay - we control timing precisely
+        pyautogui.FAILSAFE = True  # Move mouse to top-left corner to abort
+        print("[StealthInput] Physics-based Stealth Input Gateway initialized.")
 
+    # ------------------------------------------------------------------
+    # 1. GRAVITY-WELL MOUSE MOVEMENT
+    # ------------------------------------------------------------------
     def move_mouse_stealth(self, target_x, target_y, duration=None):
         """
-        [V3.7 物理引力場]: 模擬滑鼠在引力場中的運動
+        Move the mouse cursor using a physics-based gravity-well trajectory.
+
+        The cursor does not travel in a straight line. Instead, it follows a
+        spline path with decaying micro-jitter - tremor is large at the start
+        (far from target) and diminishes as the cursor falls into the gravity well.
+
+        Args:
+            target_x (int): Target X coordinate.
+            target_y (int): Target Y coordinate.
+            duration (float): Travel time in seconds. Auto-calculated if None.
         """
         if duration is None:
             duration = random.uniform(0.4, 0.8)
 
         start_x, start_y = pyautogui.position()
-        
-        # 模擬引力場控制點 (Physics-based Control Points)
-        # 這些點不再是隨機生成的，而是基於起始點到目標點的「引力梯度」
-        dist = np.sqrt((target_x - start_x)**2 + (target_y - start_y)**2)
-        cp_count = max(3, int(dist / 100))
-        
+        dist = np.sqrt((target_x - start_x) ** 2 + (target_y - start_y) ** 2)
+
+        # Generate control points along the gravity gradient
+        cp_count = max(4, int(dist / 100))
         x_points = np.linspace(start_x, target_x, cp_count)
         y_points = np.linspace(start_y, target_y, cp_count)
-        
-        # 注入「肌肉顫抖」與「空間扭曲」 (Micro-jitter)
+
+        # Inject decaying micro-jitter (simulates human hand tremor)
         for i in range(1, len(x_points) - 1):
-            # 越靠近目標，引力越強，抖動越小 (物理衰減)
-            decay = 1 - (i / len(x_points))
+            decay = 1.0 - (i / len(x_points))  # Decay toward 0 near target
             x_points[i] += random.gauss(0, 10 * decay)
             y_points[i] += random.gauss(0, 10 * decay)
-            
-        # 使用 Scipy 生成物理平滑軌跡
-        tck, u = interpolate.splprep([x_points, y_points], k=3 if len(x_points)>3 else 1, s=2)
-        u_new = np.linspace(0, 1, int(duration * 60))
-        out = interpolate.splev(u_new, tck)
-        
-        # 執行具備「慣性」與「加速度」的移動
-        for px, py in zip(out[0], out[1]):
-            pyautogui.moveTo(px, py)
-            # 模擬肌肉延遲
-            time.sleep(random.uniform(0.001, 0.005))
-        
-        print(f"🌌 [Gravity] 指標已跌入引力井: ({target_x}, {target_y})")
 
+        # Fit a smooth spline through control points
+        k = 3 if len(x_points) > 3 else 1
+        tck, u = interpolate.splprep([x_points, y_points], k=k, s=2)
+        u_new = np.linspace(0, 1, max(10, int(duration * 60)))
+        out = interpolate.splev(u_new, tck)
+
+        # Execute movement with bio-timing delays
+        for px, py in zip(out[0], out[1]):
+            pyautogui.moveTo(int(px), int(py))
+            time.sleep(random.uniform(0.001, 0.005))
+
+        print(f"[Gravity] Cursor reached gravity well: ({target_x}, {target_y})")
+
+    # ------------------------------------------------------------------
+    # 2. STEALTH CLICK
+    # ------------------------------------------------------------------
     def click_stealth(self, x=None, y=None, button='left'):
         """
-        帶有微小隨機座標偏移與點擊時長的擬人化點擊
-        """
-        if x and y:
-            # 點擊目標範圍內的隨機一個像素（防止總是點擊中心點）
-            self.move_mouse_stealth(x + random.randint(-2, 2), y + random.randint(-2, 2))
-        
-        # --- [時空因果錨定]: 紀錄潛行點擊 ---
-        try:
-            from causal_nexus import karma
-            karma.record_cause(
-                target_file="SOVEREIGN_INPUT_GATEWAY",
-                trigger_intent=f"STEALTH_CLICK: {button}",
-                impact_level="LOW",
-                causal_type="STEALTH_INPUT",
-                pillar_anchor="P11" # 錨定至安全/潛行支柱
-            )
-        except: pass
+        Perform a human-like click with randomized position offset and press duration.
 
-        # 模擬「按下」與「彈起」之間的生物延遲
+        Args:
+            x (int): Target X. If None, clicks at current position.
+            y (int): Target Y. If None, clicks at current position.
+            button (str): 'left', 'right', or 'middle'.
+        """
+        if x is not None and y is not None:
+            # Click a random pixel within +-2px of target (avoids always hitting center)
+            self.move_mouse_stealth(
+                x + random.randint(-2, 2),
+                y + random.randint(-2, 2)
+            )
+
+        # Simulate biological press/release delay
         pyautogui.mouseDown(button=button)
         time.sleep(random.uniform(0.05, 0.15))
         pyautogui.mouseUp(button=button)
-        print(f"🖱️ [StealthInput] 執行擬人化點擊 ({button})")
+        print(f"[StealthInput] Click executed ({button}) at ({x}, {y})")
 
-    def type_stealth(self, text):
+    # ------------------------------------------------------------------
+    # 3. STEALTH TYPING
+    # ------------------------------------------------------------------
+    def type_stealth(self, text, wpm_range=(40, 80)):
         """
-        模擬人類打字速度波動
+        Type text with randomized inter-key delays to simulate human typing speed.
+
+        Args:
+            text (str): Text to type.
+            wpm_range (tuple): Min and max words per minute range.
         """
+        # Convert WPM to seconds per character
+        avg_wpm = random.uniform(*wpm_range)
+        base_delay = 60.0 / (avg_wpm * 5)  # ~5 chars per word
+
         for char in text:
             pyautogui.write(char)
-            # 每個字母間的間隔都是隨機的
-            time.sleep(random.uniform(0.05, 0.2))
-        print(f"⌨️ [StealthInput] 執行擬人化輸入: {len(text)} 字元")
+            # Add random variance to each keystroke timing
+            time.sleep(base_delay * random.uniform(0.5, 1.8))
 
-# 單例模式
+        print(f"[StealthInput] Typed {len(text)} characters at ~{avg_wpm:.0f} WPM.")
+
+
+# Default singleton
 stealth_input = StealthInputGateway()
