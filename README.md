@@ -13,6 +13,9 @@ Instead of relying on heavy Vision-Language Models (VLMs), HSGF uses **mathemati
 
 > When pixels fail, Physics takes over.
 
+![HSGF Demo](hsgf_demo.jpg)
+*Left: Input scene | Right: HSGF sovereign vision — gravity well, tracked centroids, velocity vectors, viscosity coefficients*
+
 ---
 
 ## Quick Start | 快速開始
