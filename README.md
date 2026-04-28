@@ -1,4 +1,4 @@
-# 礼 [HSGF] Hiro Sovereign Gravity Framework V1.0 礼
+#  [HSGF] Hiro Sovereign Gravity Framework V1.0
 
 > **"Giving Machines the Instinct to Survive."**  
 > **「賦予機器生存的直覺。」**
