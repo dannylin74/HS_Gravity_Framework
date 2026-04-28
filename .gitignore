@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Debug & Test outputs (local only)
+debug_vision.jpg
+debug_*.jpg
+debug_*.png
+
+# Environment
+.env
+*.log
+.venv/
+env/
+
+# OS
+.DS_Store
+Thumbs.db
