@@ -38,6 +38,18 @@ graph TD;
 
 ---
 
+## 👁️ 視覺模組 (Vision Module) vs. 視覺模型 (Vision Model)
+
+HSGF 的視覺部份是一個 **完整的工程模組**，而不僅僅是一個推理模型。它包含了一套完整的 **捕捉 → 處理 → 輸出** 流程：
+
+1. **Physical Nerve (C#)** – 使用 DXGI 捕獲 144Hz 畫面，解決跨語言記憶體對齊。
+2. **Perception (Python)** – 基於物理規律（引力場、香農熵）產生符號化世界表徵。
+3. **Semantic Bridge** – 將世界狀態持久化至 `hiro_status.json`，橋接外部監控（如 Telegram）。
+
+> **結論**：它是一個 **視覺模組**。它是 Hiro Sovereign OS 中的可插拔子系統，具備獨立啟停邏輯與多語言協同能力，為高層決策提供「具身化」的感知輸入。
+
+---
+
 ## ⚡ 性能與潛行 (Performance & Stealth)
 
 - **超低延遲**: 144Hz 採樣率，感知反應閉環 < 15ms。
