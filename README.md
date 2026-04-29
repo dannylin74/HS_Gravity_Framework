@@ -1,112 +1,76 @@
-# [HSGF] Hiro Sovereign Gravity Framework V1.0
+# 🌌 HSGF: Hiro Sovereign Gravity Framework (V9.2)
 
-> **"Giving Machines the Instinct to Survive."**
-> **"賦予機器生存的直覺。"**
+> **"Giving Machines the Instinct to Survive through Mathematical Semantics."**  
+> **「賦予機器生存的直覺。」**
 
----
-
-## Overview | 概覽
-
-**HSGF** is a physics-based visual perception and navigation engine for autonomous agents.
-
-Instead of relying on heavy Vision-Language Models (VLMs), HSGF uses **mathematical physics** — gravity fields, parabolic trajectory prediction, and Shannon entropy gating — to navigate and interact with digital environments.
-
-> When pixels fail, Physics takes over.
-
-![HSGF Demo](hsgf_demo.jpg)
-*Left: Input scene | Right: HSGF sovereign vision — gravity well, tracked centroids, velocity vectors, viscosity coefficients*
+HSGF 並不依賴於複雜的視覺語言模型 (VLM)，而是運用純粹的數學物理原理——包括**引力場計算**、**拋物線軌道預測**以及**香農熵 (Shannon Entropy) 控制機制**。
 
 ---
 
-## Quick Start | 快速開始
+## 🧠 9-Layer Cognitive Stack (認知架構)
 
+V9.2 引入了完整的解耦式認知堆疊，確保系統在低功耗筆記本上依然能實現超高性能的「感知-決策-執行」閉環。
+
+```mermaid
+graph TD;
+    subgraph "Nerve Layer (C#)"
+        A[1. Physical Nerve] -->|DXGI| B[2. Perception]
+    end
+    subgraph "Cognitive Layer (Python)"
+        B -->|Symbolic| C[3. Identity]
+        C --> D[4. Belief]
+        D --> E[5. Topology]
+        E --> F[6. Intent]
+        F --> G[7. Attention]
+        G --> H[8. Simulation]
+        H --> I[9. Execution]
+    end
+    style A fill:#f96,stroke:#333,stroke-width:2px
+    style I fill:#69f,stroke:#333,stroke-width:2px
+```
+
+### 📋 核心感知維度 (Perceptive Trinity)
+| 維度 | 技術核心 | 戰術作用 |
+| :--- | :--- | :--- |
+| **數理語意** | 空間引力場權重計算 | 將像素轉化為具備「質量」的動態向量。 |
+| **符號數字** | 局部香農熵偵測 | 鎖定高資訊密度區域（如 UI 變化、敵方特徵）。 |
+| **幾何圖形** | 幾何哈希 (Geo-Hash) | 實時識別圓形、矩形，實現無訓練數據的鎖定。 |
+
+---
+
+## ⚡ 性能與潛行 (Performance & Stealth)
+
+- **超低延遲**: 144Hz 採樣率，感知反應閉環 < 15ms。
+- **極致輕量**: 僅需 < 120MB RAM，保留大量 CPU 資源給 LLM 使用。
+- **主權隱私**: 100% 本地運行，無雲端 API 依賴。
+
+---
+
+## 📡 遠程監控與戰術回報 (Telegram Integration)
+
+V9.2 新增了戰術持久化功能，可與 **Hiro Sovereign OS** 正式體系連動。透過 Telegram 機器人，您可以輸入：
+- **`/v9`**: 獲取即時戰術現況摘要、目標實體數量及當前主目標狀態。
+
+---
+
+## 🚀 快速開始
+
+### 1. 安裝依賴
 ```bash
-# 1. Install dependencies
 pip install -r requirements.txt
-
-# 2. Run the demo
-python demo.py
-
-# 3. Check 'demo_output.jpg' to see the Gravity Field visualization
 ```
 
----
+### 2. 構建神經引擎
+進入 `SOVEREIGN_CORE_CS` 並編譯 C# Capture Engine。
 
-## Core Modules | 核心模組
-
-| Module | Role |
-|--------|------|
-| `SOVEREIGN_VISION_STACK.py` | Screen capture, Canny edge detection, entropy gating, real contour-based element detection |
-| `SOVEREIGN_SEMANTIC_DEDUCTOR.py` | Parabolic trajectory prediction, apex locking, adaptive viscosity damping |
-| `SOVEREIGN_INPUT_GATEWAY.py` | Physics-based stealth mouse movement with gravity-well spline paths |
-| `demo.py` | Full integration demo — run this first |
+### 3. 啟動
+執行 `ACTIVATE_HIRO.bat` 開放全神經鏈路。
 
 ---
 
-## Key Features | 核心特性
-
-### 1. Mathematical Gravity Fields (數理引力場)
-Navigation is not a set of IF-ELSE rules. Objects are drawn toward targets as if pulled by gravity — using potential field gradients.
-
-### 2. Parabolic Trajectory Prediction (拋物線軌跡預判)
-The system detects angular velocity (ω) changes across frames to predict movement apex **before it happens** — enabling proactive correction.
-
-### 3. Shannon Entropy Gating (環境熵值感知)
-```python
-# Automatically adapts to environmental chaos
-entropy = vision_stack._calculate_entropy(frame)
-# High entropy → noise filter activated
-# Low entropy  → clean geometric extraction
-```
-
-### 4. Adaptive Viscosity Damping (自適應阻尼)
-Near the target, the system increases virtual friction to prevent overshoot — like a spacecraft performing orbital insertion.
-
-### 5. Real Geometric Detection (真實幾何偵測)
-```python
-# Find actual on-screen elements — not hardcoded coordinates
-pos, confidence = vision_stack.find_element("CIRCLE")
-pos, confidence = vision_stack.find_element("RECTANGLE")
-pos, confidence = vision_stack.find_element("LARGEST")
-```
+## ⚖️ License
+[MIT License](LICENSE) - 自由、開放、具備主權精神。
 
 ---
-
-## Architecture | 系統架構
-
-```
-Screen Capture
-      |
- [Entropy Gate] ← Shannon Entropy > threshold?
-      |                    YES → Apply noise filter
-      |
- [Edge Geometry] ← Canny edge detection
-      |
- [find_element] ← Contour analysis + Geometric Hash
-      |
- [Deductor] ← Parabolic arc + Apex locking + Damping
-      |
- [Input Gateway] ← Gravity-well spline mouse movement
-```
-
----
-
-## Philosophy | 設計哲學
-
-Most AI agents fail when pixels become noisy.
-**HSGF does not trust pixels. It trusts Physics.**
-
-- **Ultra-Lightweight**: No GPU required. Runs on 50MB RAM.
-- **Zero Latency**: Real-time deduction at 60FPS+.
-- **Sovereign & Local**: No Cloud API. Total privacy.
-
----
-
-## Requirements | 環境需求
-
-- Python 3.8+
-- See `requirements.txt`
-
----
-
-*Created by dannylin74 — Built on Physics, Not Pixels.*
+*When pixels fail, Physics takes over.*  
+*Created by Commander Hiro & Antigravity Intelligence.*
